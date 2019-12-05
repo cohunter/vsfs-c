@@ -207,12 +207,13 @@ void ls_i(char* path) {
 	directory* currentDirectory = (directory*) dataPtr(currentInode->datablock);
 
 	// YOUR CODE HERE
-
+/*
 	// Minimal Gold Code:
 	for ( int i = 0; i < DIR_MAX_ENTRIES; i++ ) {
 		if ( isValidEntry(&(currentDirectory->entries[i])) )
 			printf("%d %s\n", currentDirectory->entries[i].inode_number, currentDirectory->entries[i].entry_name);
 	}
+*/
 }
 
 void mkdir(char* path) {
