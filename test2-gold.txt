@@ -1,0 +1,23 @@
+Loaded fs with magic: vsfs
+Output of ls:
+.
+..
+file2.txt
+file3.txt
+test
+-----
+.
+..
+file1.txt
+-----
+Output of ls -i:
+2 .
+2 ..
+3 file2.txt
+4 file3.txt
+5 test
+-----
+5 .
+2 ..
+6 file1.txt
+exit success

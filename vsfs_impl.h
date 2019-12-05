@@ -1,0 +1,10 @@
+bool dir_has_dir(directory*, char*);
+bool isValidEntry(directory_entry*);
+inode* getDirInode(directory*, char*);
+directory_entry* getFirstFreeEntry(directory*);
+void initializeDirInode(directory*, uint32_t);
+inode* descendPath(char*);
+void ls(char*);
+void ls_i(char*);
+void mkdir(char*);
+void creat(char*);

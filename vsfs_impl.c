@@ -27,6 +27,12 @@
 // Functions for working with paths
 #include "path_utils.c"
 
+// Function headers for this file
+#include "vsfs_impl.h"
+
+// For instructor use
+#include "generate_tests.c"
+
 /**
  * If cond evaluates to false, declares an array of size -1.
  * This causes a compile-time error because arrays cannot have negative size.
@@ -283,38 +289,41 @@ void creat(char* path) {
 	currentInode->datablock = getFirstFreeDiskBlock();
 }
 
-int main() {
+int main(int argc, char* argv[]) {
 	C99_STATIC_ASSERT(CHAR_BIT == 8, assert_char_Equals8Bits);
 
 	// Allocate memory for the disk
 	initializeDisk();
 
-	// Superblock is disk block [0]
-	initializeSuperblock();
+	// If given a fs.img argument, load the image into memory.
+	if ( argc == 2 ) {
+		loadDisk(argv[1]);
 
-	// Populate the root inode
-	initializeRootInode();
+		printf("Output of ls:\n");
+		ls("/");
+		printf("-----\n");
+		ls("/test");
 
-	// Populate the root directory
-	initializeRootDirectory();
+		printf("-----\nOutput of ls -i:\n");
+		ls_i("/");
+		printf("-----\n");
+		ls_i("/test");
+	} else {
+		// Superblock is disk block [0]
+		initializeSuperblock();
 
-	//loadDisk("disk.bin");
+		// Populate the root inode
+		initializeRootInode();
 
-	mkdir("/test");
-	mkdir("/test2");
-	mkdir("/test2/dir3");
-	creat("/test2/dir3/file1");
+		// Populate the root directory
+		initializeRootDirectory();
 
-	printf("Output of ls function:\n");
-	ls("/");
-	ls("/test2");
-	ls("/test2/dir3");
-	
-	printf("Output of ls -i function:\n");
-	ls_i("/");
-	ls_i("/test2");
-	ls_i("/test2/dir3");
-	//saveDisk("disk.bin");
+		// We have a clean filesystem, now we can do things with it.
+
+		/* REMOVE: Generate test images. */
+		createTest1bin();
+		createTest2bin();
+	}
 
 	printf("exit success\n");
 }

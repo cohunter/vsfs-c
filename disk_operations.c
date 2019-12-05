@@ -175,6 +175,10 @@ void saveDisk(char* filename) {
 
 void loadDisk(char* filename) {
 	FILE *diskFile = fopen(filename, "rb");
+	if ( NULL == diskFile ) {
+		printf("ERROR: Cannot open file (%s) for reading.", filename);
+		exit(-1);
+	}
 	fread(disk, 1, BLOCK_SIZE * BLOCKS_COUNT, diskFile);
 	printf("Loaded fs with magic: %s\n", ((superBlock*) disk)->magic.magic_char_array);
 	fclose(diskFile);
