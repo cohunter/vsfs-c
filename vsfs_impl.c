@@ -48,15 +48,9 @@ bool isValidEntry(directory_entry* dEntry) {
 	if ( dEntry == NULL ) {
 		return false;
 	}
-
 	if ( '\0' == dEntry->entry_name[0] ) {
 		return false;
 	}
-
-	if ( ROOT_INODE < dEntry->inode_number ) {
-		return false;
-	}
-
 	return true;
 }
 
@@ -143,12 +137,12 @@ inode* descendPath(char* path) {
 			// Is this an entry name (file to be accessed or directory to be created)?
 			if ( strcmp(endToken, tok) == 0 ) {
 				FLAG_PATH_ENDNAME = true;
-				printf("FLAG_PATH_ENDNAME\n");
+				//printf("FLAG_PATH_ENDNAME\n");
 				return currentInode;
 			} else {
 				// Requested a directory, but it does not exist.
 				FLAG_PATH_INCOMPLETE = true;
-				printf("FLAG_PATH_INCOMPLETE\n");
+				//printf("FLAG_PATH_INCOMPLETE\n");
 				return currentInode;
 			}
 		}
@@ -174,6 +168,7 @@ void ls(char* path) {
 	if ( FLAG_PATH_ENDNAME ) {
 		bool found_entry = false;
 		char* wantName = finalToken(path);
+		printf("Listing single file. Want: %s\n", wantName);
 
 		for ( int i = 0; i < DIR_MAX_ENTRIES; i++ ) {
 			if ( isValidEntry(&(currentDirectory->entries[i])) ) {
@@ -207,9 +202,9 @@ void ls_i(char* path) {
 
 	// YOUR CODE HERE
 
-	// Gold:
+	// Minimal Gold Code:
 	for ( int i = 0; i < DIR_MAX_ENTRIES; i++ ) {
-		if ( '\0' != currentDirectory->entries[i].entry_name[0] )
+		if ( isValidEntry(&(currentDirectory->entries[i])) )
 			printf("%d %s\n", currentDirectory->entries[i].inode_number, currentDirectory->entries[i].entry_name);
 	}
 }
@@ -289,7 +284,7 @@ void creat(char* path) {
 }
 
 int main() {
-	//C99_STATIC_ASSERT(CHAR_BIT == 8, assert_char_Equals8Bits);
+	C99_STATIC_ASSERT(CHAR_BIT == 8, assert_char_Equals8Bits);
 
 	// Allocate memory for the disk
 	initializeDisk();
@@ -311,8 +306,8 @@ int main() {
 	creat("/test2/dir3/file1");
 
 	printf("Output of ls function:\n");
-	ls("/temp");
-	//ls("/test2/dir3/x");
+	ls("/");
+	ls("/test2");
 	ls("/test2/dir3");
 	
 	printf("Output of ls -i function:\n");

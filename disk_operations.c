@@ -21,8 +21,6 @@ void initializeDisk() {
 	 * NOTE: Memory allocated with malloc() is not initialized to zero.
 	 */
 
-	// YOUR CODE HERE?
-
 	// Method one (calloc):
 	disk = calloc(1, BLOCKS_COUNT * BLOCK_SIZE);
 	// calloc(BLOCKS_COUNT, BLOCK_SIZE) would be more idiomatic,
@@ -78,7 +76,6 @@ inode* inodePtr(int inode_number) {
 	 * Which part of the data from the sector do we want?
 	 */
 
-	// YOUR CODE HERE?
 	if ( inode_number % 2 == 0 ) {
 		currentInode = (inode*) currentSector;
 	} else {
